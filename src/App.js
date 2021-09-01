@@ -1,23 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header";
+import Authentication from './components/Authentication';
+import {Switch,Route, Redirect} from 'react-router';
+import Dashboard from "./components/Dashboard";
+import {useSelector} from 'react-redux';
 
 function App() {
+  const isLogged = useSelector(state=>state.auth.isLogged)
+  console.log(isLogged)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header/>
+      <Switch>
+        <Route  path='/dashboard' render={()=>isLogged?<Dashboard/>:<Redirect to='/'/>}/>
+        <Route  path='/' component={Authentication}/>
+      </Switch>
     </div>
   );
 }
